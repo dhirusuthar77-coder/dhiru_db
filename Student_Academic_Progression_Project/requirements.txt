@@ -1,0 +1,9 @@
+# Student Academic Progression System Dependencies
+streamlit>=1.38
+pandas>=2.0
+plotly>=5.20
+mysql-connector-python>=8.3
+python-dotenv>=1.0
+gspread>=6.0
+google-auth>=2.28
+google-auth-oauthlib>=1.0

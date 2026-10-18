@@ -1,0 +1,19 @@
+# Credentials & Secrets
+.env
+service_account.json
+*.key
+
+# Python Virtual Environments & Bytecode
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Test & IDE Cache
+.pytest_cache/
+.vscode/
+.idea/
+
+# Logs & Temporary Task Logs
+*.log
