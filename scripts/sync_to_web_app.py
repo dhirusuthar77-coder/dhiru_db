@@ -15,6 +15,7 @@ import os
 import json
 import decimal
 import urllib.request
+import sqlite3
 import mysql.connector
 from dotenv import load_dotenv
 
@@ -25,6 +26,8 @@ DB_PORT = int(os.getenv("DB_PORT", "3306"))
 DB_USER = os.getenv("DB_USER", "root")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "Dhiraj@1507")
 DB_NAME = os.getenv("DB_NAME", "student_progression")
+
+SQLITE_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "database", "student_progression.db")
 
 WEB_APP_URL = os.getenv(
     "GOOGLE_WEB_APP_URL",
@@ -53,13 +56,17 @@ def format_cell(v):
     return str(v)
 
 def fetch_payload():
-    conn = mysql.connector.connect(
-        host=DB_HOST,
-        port=DB_PORT,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        database=DB_NAME
-    )
+    try:
+        conn = mysql.connector.connect(
+            host=DB_HOST,
+            port=DB_PORT,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME,
+            connection_timeout=1
+        )
+    except Exception:
+        conn = sqlite3.connect(SQLITE_PATH)
     cur = conn.cursor()
 
     payload_tables = {}

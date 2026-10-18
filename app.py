@@ -59,28 +59,56 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Database Connection Helper
+# Intelligent Dual-Engine Adapter (MySQL 8.0 + SQLite 3 Production Fallback)
+import sqlite3
+import threading
+
+SQLITE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database", "student_progression.db")
+
+def is_mysql_available():
+    try:
+        conn = mysql.connector.connect(
+            host=os.getenv("DB_HOST", "127.0.0.1"),
+            port=int(os.getenv("DB_PORT", "3306")),
+            user=os.getenv("DB_USER", "root"),
+            password=os.getenv("DB_PASSWORD", "Dhiraj@1507"),
+            database=os.getenv("DB_NAME", "student_progression"),
+            connection_timeout=1
+        )
+        conn.close()
+        return True
+    except Exception:
+        return False
+
+# Detect active database engine
+DB_ENGINE = "MYSQL" if is_mysql_available() else "SQLITE"
+
 def get_db_connection():
-    return mysql.connector.connect(
-        host=os.getenv("DB_HOST", "127.0.0.1"),
-        port=int(os.getenv("DB_PORT", "3306")),
-        user=os.getenv("DB_USER", "root"),
-        password=os.getenv("DB_PASSWORD", "Dhiraj@1507"),
-        database=os.getenv("DB_NAME", "student_progression"),
-        autocommit=True
-    )
+    if DB_ENGINE == "MYSQL":
+        return mysql.connector.connect(
+            host=os.getenv("DB_HOST", "127.0.0.1"),
+            port=int(os.getenv("DB_PORT", "3306")),
+            user=os.getenv("DB_USER", "root"),
+            password=os.getenv("DB_PASSWORD", "Dhiraj@1507"),
+            database=os.getenv("DB_NAME", "student_progression"),
+            autocommit=True
+        )
+    else:
+        conn = sqlite3.connect(SQLITE_PATH, check_same_thread=False)
+        conn.execute("PRAGMA foreign_keys = ON;")
+        return conn
 
 def query_df(sql, params=()):
+    if DB_ENGINE == "SQLITE":
+        sql = sql.replace("%s", "?")
     conn = get_db_connection()
     try:
         return pd.read_sql(sql, conn, params=params)
     finally:
         conn.close()
 
-import threading
-
 def trigger_background_sheet_sync():
-    """Silently pushes updated MySQL tables to Google Sheets in a non-blocking background thread."""
+    """Silently pushes updated database tables to Google Sheets in a non-blocking background thread."""
     try:
         from scripts.sync_to_web_app import sync_mysql_to_web_app
         sync_mysql_to_web_app()
@@ -88,6 +116,12 @@ def trigger_background_sheet_sync():
         print(f"[Auto-Sync Warning] {err}")
 
 def execute(sql, params=(), auto_sync=True):
+    orig_sql = sql
+    if DB_ENGINE == "SQLITE":
+        sql = sql.replace("%s", "?")
+        if "ON DUPLICATE KEY UPDATE" in sql:
+            sql = sql.split("ON DUPLICATE KEY UPDATE")[0].replace("INSERT INTO", "INSERT OR REPLACE INTO")
+            
     conn = get_db_connection()
     try:
         cur = conn.cursor()
@@ -96,8 +130,8 @@ def execute(sql, params=(), auto_sync=True):
         last_id = cur.lastrowid
         cur.close()
         
-        # Real-time auto sync on any database write (INSERT, UPDATE, DELETE)
-        first_word = sql.strip().split()[0].upper()
+        # Real-time auto sync on any database mutation (INSERT, UPDATE, DELETE)
+        first_word = orig_sql.strip().split()[0].upper()
         if auto_sync and first_word in ("INSERT", "UPDATE", "DELETE", "REPLACE"):
             threading.Thread(target=trigger_background_sheet_sync, daemon=True).start()
             
@@ -106,12 +140,18 @@ def execute(sql, params=(), auto_sync=True):
         conn.close()
 
 def check_db_health():
-    try:
-        conn = get_db_connection()
-        conn.close()
-        return True, "Connected to MySQL database."
-    except Error as e:
-        return False, str(e)
+    if DB_ENGINE == "MYSQL":
+        try:
+            conn = get_db_connection()
+            conn.close()
+            return True, "MySQL 8.0 Engine (Local)"
+        except Exception as e:
+            return False, str(e)
+    else:
+        if os.path.exists(SQLITE_PATH):
+            return True, "SQLite 3 Engine (Cloud Production)"
+        else:
+            return False, f"SQLite database file not found at: {SQLITE_PATH}"
 
 # Sidebar Navigation
 with st.sidebar:
@@ -129,16 +169,17 @@ with st.sidebar:
     db_ok, db_status = check_db_health()
     if db_ok:
         st.success("🟢 Database Online", icon="✅")
-        st.caption("⚡ Real-Time Google Sheet Sync: **Active**")
+        st.caption(f"⚙️ **{db_status}**")
+        st.caption("⚡ Cloud Sync: **Active**")
     else:
         st.error("🔴 Database Offline", icon="⚠️")
         st.caption(db_status)
     
     st.markdown("---")
-    st.caption("DBMS Mini-Project • MySQL 8.0 • 3NF Normalized")
+    st.caption("DBMS Mini-Project • 3NF Normalized")
 
 if not db_ok:
-    st.error("⚠️ MySQL connection failed. Please ensure MySQL Server is running and `.env` credentials are correct.")
+    st.error("⚠️ Database connection failed.")
     st.info("You can initialize the database schema by running: `python init_db.py` in the terminal.")
     with st.expander("Connection Diagnostic Details"):
         st.code(db_status)
@@ -269,8 +310,9 @@ if page == "Dashboard":
         st.subheader("🚨 Attendance Warnings (< 75%)")
         att_warn_df = query_df("SELECT * FROM v_attendance_warnings")
         if not att_warn_df.empty:
+            show_cols = [c for c in ["roll_number", "full_name", "subject_code", "attendance_percentage", "shortage_percentage", "classes_needed_for_75"] if c in att_warn_df.columns]
             st.dataframe(
-                att_warn_df[["roll_number", "full_name", "subject_code", "attendance_percentage", "shortage_percentage", "classes_needed_for_75"]],
+                att_warn_df[show_cols],
                 use_container_width=True,
                 hide_index=True
             )
@@ -281,8 +323,9 @@ if page == "Dashboard":
         st.subheader("📌 Active Backlog Remediation List")
         backlog_df = query_df("SELECT * FROM v_backlog_tracker")
         if not backlog_df.empty:
+            b_cols = [c for c in ["roll_number", "full_name", "semester_number", "subject_code", "total_marks", "grade", "result_status"] if c in backlog_df.columns]
             st.dataframe(
-                backlog_df[["roll_number", "full_name", "semester_number", "subject_code", "total_marks", "grade", "result_status"]],
+                backlog_df[b_cols],
                 use_container_width=True,
                 hide_index=True
             )
