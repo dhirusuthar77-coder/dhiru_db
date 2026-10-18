@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Academic Progression — User & Technical Report</title>
+<style>
+  @page {
+    size: A4;
+    margin: 20mm 20mm 20mm 20mm;
+    @bottom-center {
+      content: "Student Academic Progression — User & Technical Report | Page " counter(page);
+    }
+  }
+
+  body {
+    font-family: 'Times New Roman', Times, serif;
+    color: #111827;
+    line-height: 1.45;
+    font-size: 11pt;
+    margin: 0;
+    padding: 0;
+  }
+
+  .page {
+    page-break-after: always;
+    min-height: 980px;
+    position: relative;
+    padding-bottom: 40px;
+  }
+
+  .page:last-child {
+    page-break-after: avoid;
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 9.5pt;
+    color: #374151;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 8px;
+  }
+
+  /* Cover Page */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 850px;
+  }
+
+  .cover h1 {
+    font-size: 22pt;
+    font-weight: bold;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .cover h2 {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .cover h3 {
+    font-size: 13pt;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+
+  .cover-details {
+    font-size: 11.5pt;
+    line-height: 1.8;
+  }
+
+  .cover-details a {
+    color: #7e22ce;
+    text-decoration: underline;
+  }
+
+  /* Headings */
+  h2.section-title {
+    font-size: 12.5pt;
+    font-weight: bold;
+    margin-top: 16px;
+    margin-bottom: 10px;
+  }
+
+  h3.subsection-title {
+    font-size: 11pt;
+    font-weight: bold;
+    margin-top: 12px;
+    margin-bottom: 6px;
+  }
+
+  p {
+    margin-top: 4px;
+    margin-bottom: 10px;
+    text-align: justify;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    margin-bottom: 14px;
+    font-size: 10pt;
+  }
+
+  table, th, td {
+    border: 1px solid #374151;
+  }
+
+  th {
+    background-color: #f9fafb;
+    font-weight: bold;
+    text-align: left;
+    padding: 6px 8px;
+  }
+
+  td {
+    padding: 5px 8px;
+    vertical-align: top;
+  }
+
+  code {
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 9pt;
+    background-color: #f3f4f6;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+
+  @media print {
+    body {
+      padding: 0;
+    }
+    .page {
+      min-height: auto;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======================================================================= -->
+<!-- PAGE 1: COVER PAGE -->
+<!-- ======================================================================= -->
+<div class="page">
+  <div class="cover">
+    <h1>STUDENT ACADEMIC PROGRESSION</h1>
+    <h2>USER & TECHNICAL REPORT</h2>
+    <h3>DBMS Mini-Project</h3>
+
+    <div class="cover-details">
+      Application: <a href="http://localhost:8501">http://localhost:8501</a><br>
+      GitHub: <a href="https://github.com/dhirusuthar77-coder/dhiru_db">https://github.com/dhirusuthar77-coder/dhiru_db</a><br><br>
+      Submitted by: <strong>Dhiraj Suthar</strong><br>
+      Roll No:- <strong>44</strong><br>
+      Class: <strong>T.E. (Computer Engineering / Electronics & Telecommunication)</strong><br>
+      Institute: <strong>VIVA INSTITUTE OF TECHNOLOGY</strong>
+    </div>
+  </div>
+  <div class="footer">Student Academic Progression — User & Technical Report | Page 1</div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- PAGE 2: PROJECT DETAILS & ARCHITECTURE -->
+<!-- ======================================================================= -->
+<div class="page">
+  <h2 class="section-title">Project Details</h2>
+  <p>The following details identify the DBMS mini-project and its deployment.</p>
+
+  <table>
+    <tr>
+      <th style="width: 32%;">Particulars</th>
+      <th>Details</th>
+    </tr>
+    <tr>
+      <td><strong>Course</strong></td>
+      <td>Database Management Systems (DBMS Mini-Project)</td>
+    </tr>
+    <tr>
+      <td><strong>Institution</strong></td>
+      <td>VIVA Institute of Technology</td>
+    </tr>
+    <tr>
+      <td><strong>Live Production Web App</strong></td>
+      <td><a href="http://localhost:8501">http://localhost:8501</a> (or deployed Streamlit Cloud URL)</td>
+    </tr>
+    <tr>
+      <td><strong>GitHub Repository</strong></td>
+      <td><a href="https://github.com/dhirusuthar77-coder/dhiru_db">https://github.com/dhirusuthar77-coder/dhiru_db</a></td>
+    </tr>
+    <tr>
+      <td><strong>Primary Database Engine</strong></td>
+      <td>SQLite 3 (ACID-compliant, foreign keys enabled, strict 3NF schema)</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud Mirror Database</strong></td>
+      <td>MySQL 8.0 (InnoDB, remote replication engine)</td>
+    </tr>
+    <tr>
+      <td><strong>Live Cloud Synchronization</strong></td>
+      <td>Google Apps Script Webhook Pipeline (Bi-directional JSON sync)</td>
+    </tr>
+  </table>
+
+  <h2 class="section-title">1. System Architecture & Relational Topology</h2>
+  <p>The supplied project report describes a layered three-tier architecture.</p>
+
+  <table>
+    <tr>
+      <th style="width: 38%;">Layer / Component</th>
+      <th>Responsibilities / Details</th>
+    </tr>
+    <tr>
+      <td><strong>Presentation Layer — Streamlit GUI</strong></td>
+      <td>Live web application; interactive navigation panels; Plotly dual-line progression graphs; responsive desktop and mobile layout.</td>
+    </tr>
+    <tr>
+      <td><strong>Business & Integration Engine</strong></td>
+      <td>Credit-weighted SGPA = &Sigma;(Credits &times; Grade Point) / &Sigma;(Credits); cumulative CGPA across active semesters; drop-year chronology detection and validation alerts; event-driven sync queue and payload snapshot dispatcher.</td>
+    </tr>
+    <tr>
+      <td><strong>Local Relational Database — SQLite 3</strong></td>
+      <td>Strict 3NF; PRAGMA foreign_keys = ON; 8 interconnected relational tables.</td>
+    </tr>
+    <tr>
+      <td><strong>Google Sheets Webhook</strong></td>
+      <td>Real-time JSON streaming; 8 normalized synchronized sheets.</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud Mirror Database — MySQL 8.0</strong></td>
+      <td>Remote persistence and backup; triggers; CASCADE/RESTRICT integrity actions.</td>
+    </tr>
+  </table>
+
+  <h2 class="section-title">2. Step-by-Step Operational Guide (GUI & Sync Feature)</h2>
+  <p><strong>Step 1: Accessing the Live System</strong><br>
+  Open <code>http://localhost:8501</code> in a web browser such as Chrome, Edge, Safari, or Firefox. The supplied report describes a layout that adapts to desktop, tablet, and mobile screens.</p>
+
+  <p><strong>Step 2: Browsing & Filtering Student Directory</strong><br>
+  Open “Dashboard & Analytics” or “Student Management”. The system lists engineering departments: Computer Engineering, AI & Machine Learning, Data Science, Information Technology, Electronics & Telecommunication, and Mechanical Engineering. Search by roll number (examples: <code>23FC003</code>, <code>22CS101</code>) or full name. Dashboard indicators include total students, active vs. graduated students, overall institutional CGPA average, and active drop-year flags.</p>
+
+  <div class="footer">Student Academic Progression — User & Technical Report | Page 2</div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- PAGE 3: OPERATIONAL GUIDE (CONTINUED) -->
+<!-- ======================================================================= -->
+<div class="page">
+  <p><strong>Step 3: Academic Progression & SGPA/CGPA</strong><br>
+  Review the student's 10th SSC and 12th HSC / Diploma records, including board and percentage. The report describes a Plotly dual-line chart for Term SGPA and Cumulative CGPA across Semesters 1–8, plus a grade breakdown for credits attempted vs. earned, theory marks, and practical lab marks.</p>
+
+  <p><strong>Step 4: Drop-Year Audit Tracking</strong><br>
+  Open “Drop Years”. The report states that duration is calculated as End Year &minus; Start Year, with reasons such as Medical Leave, Preparation, or Financial and an approving authority. Warning banners are described on the student overview and administrative dashboard.</p>
+
+  <p><strong>Step 5: Portfolio & Extracurricular Achievements</strong><br>
+  Open “Portfolio & Achievements”. Categories listed in the report include Technical, Hackathon, Research Paper, Certification, Sports, and Cultural. Records include project titles, event scope (State, National, International), award level (1st Prize, Finalist), and issue date.</p>
+
+  <p><strong>Step 6: Google Sheets Webhook Synchronization</strong><br>
+  Open “Google Sheets Sync”. The panel displays connection status for the deployed Google Apps Script Webhook.</p>
+
+  <table>
+    <tr>
+      <th style="width: 38%;">Sync Action</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><strong>Process Pending Queue</strong></td>
+      <td>Dispatches uncommitted local INSERT, UPDATE, or DELETE operations to Google Sheets.</td>
+    </tr>
+    <tr>
+      <td><strong>Force Full Sync (All 8 Tables)</strong></td>
+      <td>Serializes database rows into structured JSON tables and mirrors them across eight sheets, as described in the supplied report.</td>
+    </tr>
+    <tr>
+      <td><strong>Live Demo: Add Test Student & Sync</strong></td>
+      <td>Creates a test record in SQLite and pushes it to Google Sheets; the source report claims this takes under two seconds.</td>
+    </tr>
+    <tr>
+      <td><strong>Verify spreadsheet</strong></td>
+      <td>Check tabs in exact sequence: <code>achievement_categories</code>, <code>students</code>, <code>school_records</code>, <code>semesters</code>, <code>subjects</code>, <code>semester_results</code>, <code>drop_years</code>, <code>achievements</code>.</td>
+    </tr>
+  </table>
+
+  <h2 class="section-title">3. Instructions on Modifying & Updating Records in the Database</h2>
+  <h3 class="subsection-title">Method A: Graphical Forms (Recommended)</h3>
+  <p>Register a student: open “Student Management” &rarr; “Register New Student”; enter roll number, full name, institutional email (<code>@viva-technology.org</code>), phone, department, and admission year; then select “Save Student”. The source report says roll number and email uniqueness are validated.</p>
+  
+  <p>Update marks: open “Semesters & Marks” &rarr; “Enter Semester Marks”; select the student and semester, choose a subject, enter theory and lab marks (0–100), and select “Save Subject Result”. The source report describes recalculation of grade points, SGPA, and CGPA.</p>
+
+  <p>Log a drop year: open “Drop Years” &rarr; “Record Academic Gap”; select the student and enter start year, end year, reason, and approving authority. End year must be greater than or equal to start year.</p>
+
+  <div class="footer">Student Academic Progression — User & Technical Report | Page 3</div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- PAGE 4: SQL CONSOLE & PYTHON ADMINISTRATION -->
+<!-- ======================================================================= -->
+<div class="page">
+  <h3 class="subsection-title">Method B: SQL Console</h3>
+  <p>The supplied report says administrators can execute SQL queries from the “3NF Schema & Viva” tab. Examples:</p>
+
+  <table>
+    <tr>
+      <th style="width: 38%;">Purpose</th>
+      <th>SQL Example</th>
+    </tr>
+    <tr>
+      <td><strong>Update student contact details and status</strong></td>
+      <td><code>UPDATE students SET phone = '9801437836', current_status = 'Active' WHERE roll_number = '23FC003';</code></td>
+    </tr>
+    <tr>
+      <td><strong>Correct theory and lab marks</strong></td>
+      <td><code>UPDATE semester_results SET internal_marks = 26.0, external_marks = 64.0, total_marks = 90.0, grade = 'O' WHERE semester_id = 14 AND subject_id = 3;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Recalculate semester SGPA</strong></td>
+      <td><code>UPDATE semesters SET sgpa = (SELECT ROUND(SUM(credits * grade_point) / SUM(credits), 2) FROM semester_results WHERE semester_id = 14) WHERE semester_id = 14;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Delete an achievement</strong></td>
+      <td><code>DELETE FROM achievements WHERE entry_id = 12;</code></td>
+    </tr>
+  </table>
+
+  <h3 class="subsection-title">Method C: Python / CLI Database Administration</h3>
+  <p>For programmatic changes, connect to SQLite, enable foreign keys, perform the update inside a transaction, commit on success, roll back on an IntegrityError, and close the connection.</p>
+
+  <table>
+    <tr>
+      <th style="width: 35%;">Step</th>
+      <th>Example</th>
+    </tr>
+    <tr>
+      <td><strong>Connect</strong></td>
+      <td><code>sqlite3.connect('database/student_progression.db')</code></td>
+    </tr>
+    <tr>
+      <td><strong>Enable foreign keys</strong></td>
+      <td><code>conn.execute("PRAGMA foreign_keys = ON;")</code></td>
+    </tr>
+    <tr>
+      <td><strong>Update</strong></td>
+      <td><code>UPDATE students SET branch = 'Electronics & Telecommunication', email = 'arjun.reddy@viva-technology.org' WHERE roll_number = '23FC003';</code></td>
+    </tr>
+    <tr>
+      <td><strong>Successful update</strong></td>
+      <td>Commit the transaction and report success.</td>
+    </tr>
+    <tr>
+      <td><strong>Constraint violation</strong></td>
+      <td>Catch <code>sqlite3.IntegrityError</code>, roll back, and report the integrity violation.</td>
+    </tr>
+    <tr>
+      <td><strong>Close</strong></td>
+      <td>Close the database connection in a finally block.</td>
+    </tr>
+  </table>
+
+  <div class="footer">Student Academic Progression — User & Technical Report | Page 4</div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- PAGE 5: SCHEMA CONSTRAINTS & VIOLATION HANDLING -->
+<!-- ======================================================================= -->
+<div class="page">
+  <h2 class="section-title">4. Schema Constraints & Violation Handling</h2>
+  <p>The following table reproduces the constraints and violation-handling rules stated in the supplied source report.</p>
+
+  <table>
+    <tr>
+      <th style="width: 18%;">Constraint Type</th>
+      <th style="width: 25%;">Target Entity / Column</th>
+      <th style="width: 27%;">Rule Enforced</th>
+      <th>Violation Handling</th>
+    </tr>
+    <tr>
+      <td><strong>PRIMARY KEY</strong></td>
+      <td>All 8 tables (<code>student_id</code>, <code>semester_id</code>, etc.)</td>
+      <td>Auto-incrementing integer keys guarantee entity uniqueness.</td>
+      <td><code>SQLITE_CONSTRAINT_PRIMARYKEY</code>; normally prevented by auto-generation; form alerts if manually overridden.</td>
+    </tr>
+    <tr>
+      <td><strong>UNIQUE candidate key</strong></td>
+      <td><code>students(roll_number)</code></td>
+      <td>No duplicate roll numbers across departments.</td>
+      <td><code>SQLITE_CONSTRAINT_UNIQUE</code>; form reports that the roll number already exists.</td>
+    </tr>
+    <tr>
+      <td><strong>UNIQUE candidate key</strong></td>
+      <td><code>students(email)</code></td>
+      <td>No duplicate institutional email addresses.</td>
+      <td><code>SQLITE_CONSTRAINT_UNIQUE</code>; form reports that the email is already registered.</td>
+    </tr>
+    <tr>
+      <td><strong>UNIQUE composite key</strong></td>
+      <td><code>school_records(student_id, qualification_type)</code></td>
+      <td>At most one 10th and one 12th/Diploma record per student.</td>
+      <td><code>SQLITE_CONSTRAINT_UNIQUE</code>; existing record is updated rather than duplicated.</td>
+    </tr>
+    <tr>
+      <td><strong>UNIQUE composite key</strong></td>
+      <td><code>semesters(student_id, semester_number)</code></td>
+      <td>Each semester number (1–8) can be registered once per student.</td>
+      <td><code>SQLITE_CONSTRAINT_UNIQUE</code>; existing semester record is loaded.</td>
+    </tr>
+    <tr>
+      <td><strong>CHECK</strong></td>
+      <td><code>school_records(percentage)</code></td>
+      <td>Percentage must be between 0 and 100.</td>
+      <td><code>SQLITE_CONSTRAINT_CHECK</code>; invalid value is rejected and UI displays a validation alert.</td>
+    </tr>
+    <tr>
+      <td><strong>CHECK</strong></td>
+      <td><code>semesters(sgpa)</code>, <code>semesters(cgpa)</code></td>
+      <td>GPA must be within 0–10.</td>
+      <td><code>SQLITE_CONSTRAINT_CHECK</code>; invalid grade-point values are blocked.</td>
+    </tr>
+    <tr>
+      <td><strong>CHECK</strong></td>
+      <td><code>drop_years(start_year, end_year)</code></td>
+      <td><code>end_year >= start_year</code>.</td>
+      <td><code>SQLITE_CONSTRAINT_CHECK</code>; invalid chronology is rejected.</td>
+    </tr>
+    <tr>
+      <td><strong>CHECK</strong></td>
+      <td><code>semester_results(internal_marks, external_marks)</code></td>
+      <td>Marks must be between 0 and 100.</td>
+      <td><code>SQLITE_CONSTRAINT_CHECK</code>; out-of-range marks are blocked.</td>
+    </tr>
+    <tr>
+      <td><strong>FOREIGN KEY &mdash; CASCADE</strong></td>
+      <td><code>students</code> &rarr; <code>school_records</code>, <code>semesters</code>, <code>drop_years</code>, <code>achievements</code></td>
+      <td>Deleting a student removes dependent child records.</td>
+      <td>Automatic cascade in a transaction; avoids orphan records.</td>
+    </tr>
+  </table>
+
+  <div class="footer">Student Academic Progression — User & Technical Report | Page 5</div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- PAGE 6: 3NF RATIONALE -->
+<!-- ======================================================================= -->
+<div class="page">
+  <table>
+    <tr>
+      <th style="width: 18%;">Constraint Type</th>
+      <th style="width: 25%;">Target Entity / Column</th>
+      <th style="width: 27%;">Rule Enforced</th>
+      <th>Violation Handling</th>
+    </tr>
+    <tr>
+      <td><strong>FOREIGN KEY &mdash; RESTRICT</strong></td>
+      <td><code>subjects(subject_id)</code> &rarr; <code>semester_results(subject_id)</code></td>
+      <td>A subject cannot be deleted while referenced by student results.</td>
+      <td><code>SQLITE_CONSTRAINT_RESTRICT</code>; deletion is rejected with an explanatory message.</td>
+    </tr>
+  </table>
+
+  <h2 class="section-title">5. Third Normal Form (3NF) Rationale</h2>
+  <p>The source report states that for every non-trivial functional dependency X &rarr; Y, X must be a superkey, or every attribute in Y \ X must be a prime attribute (part of a candidate key).</p>
+
+  <table>
+    <tr>
+      <th style="width: 20%;">Relation</th>
+      <th style="width: 38%;">Attributes / Keys</th>
+      <th>3NF Rationale</th>
+    </tr>
+    <tr>
+      <td><strong>students</strong></td>
+      <td><code>student_id</code> (PK), <code>roll_number</code> (candidate key), <code>full_name</code>, <code>email</code> (candidate key), <code>phone</code>, <code>branch</code>, <code>admission_year</code>, <code>current_status</code>.</td>
+      <td>Functional dependencies: <code>student_id</code> &rarr; all attributes; <code>roll_number</code> &rarr; all attributes. Attributes are atomic (1NF); keys are non-composite; no non-prime attribute determines another non-prime attribute (3NF).</td>
+    </tr>
+    <tr>
+      <td><strong>semesters</strong></td>
+      <td><code>semester_id</code> (PK), <code>student_id</code> (FK), <code>semester_number</code>, <code>academic_year</code>, <code>sgpa</code>, <code>cgpa</code>, <code>result_status</code>. Candidate key: (<code>student_id</code>, <code>semester_number</code>).</td>
+      <td>SGPA and status depend on the specific student and semester; the source states no transitive dependency between academic year and SGPA.</td>
+    </tr>
+    <tr>
+      <td><strong>subjects</strong></td>
+      <td><code>subject_id</code> (PK), <code>subject_code</code> (candidate key), <code>subject_name</code>, <code>subject_type</code>, <code>credits</code>, <code>semester_number</code>.</td>
+      <td>An independent catalog reduces insertion, update, and deletion anomalies: courses can be added before enrollment; course details can be updated once; deleting results does not delete the catalog.</td>
+    </tr>
+    <tr>
+      <td><strong>semester_results</strong></td>
+      <td><code>result_id</code> (PK), <code>semester_id</code> (FK), <code>subject_id</code> (FK), <code>internal_marks</code>, <code>external_marks</code>, <code>total_marks</code>, <code>credits</code>, <code>grade</code>. Candidate key: (<code>semester_id</code>, <code>subject_id</code>).</td>
+      <td>Grade depends on semester registration and subject; theory and practical marks are stored in separate atomic columns.</td>
+    </tr>
+    <tr>
+      <td><strong>school_records</strong></td>
+      <td><code>school_record_id</code> (PK), <code>student_id</code> (FK), <code>qualification_type</code>, <code>board_name</code>, <code>school_name</code>, <code>passing_year</code>, <code>percentage</code>. Candidate key: (<code>student_id</code>, <code>qualification_type</code>).</td>
+      <td>Prior schooling records are stored independently; prevents repetitive null fields for students without separate diploma records.</td>
+    </tr>
+    <tr>
+      <td><strong>drop_years</strong></td>
+      <td><code>gap_id</code> (PK), <code>student_id</code> (FK), <code>start_year</code>, <code>end_year</code>, <code>reason</code>, <code>description</code>.</td>
+      <td>Non-academic periods isolated from active semester evaluation tables; prevents dummy progression rows.</td>
+    </tr>
+    <tr>
+      <td><strong>achievements</strong></td>
+      <td><code>entry_id</code> (PK), <code>student_id</code> (FK), <code>category_id</code> (FK), <code>title</code>, <code>organization</code>, <code>entry_date</code>, <code>certificate_url</code>.</td>
+      <td>Student portfolio activities maintained as atomic rows with foreign keys to standardized categories.</td>
+    </tr>
+    <tr>
+      <td><strong>achievement_categories</strong></td>
+      <td><code>category_id</code> (PK), <code>category_name</code> (candidate key), <code>category_group</code>, <code>activity_type</code>.</td>
+      <td>Standardized catalog prevents repetitive strings and data redundancy across portfolio records.</td>
+    </tr>
+  </table>
+
+  <div class="footer">Student Academic Progression — User & Technical Report | Page 6</div>
+</div>
+
+</body>
+</html>
